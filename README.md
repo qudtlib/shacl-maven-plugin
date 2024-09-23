@@ -4,7 +4,7 @@
 - validate:
 - infer
 
-Both targets are configured with 2 filesets ('shapes' and 'data') that `<include>` and `<exclude>` files using ant-style patterns.
+Both targets are configured with 2 filesets (`<shapes>` and `<data>`) that `<include>` and `<exclude>` files using comma/newline-separated ant-style patterns.
 The output is written to the `<outputFile>`. One may `<skip/>` such a fileset if needed.
 
 For the 'validate' target, this configuration is provided in '<validations>/<validate>' elements. The validiation report is written to the`<outputFile>`.
