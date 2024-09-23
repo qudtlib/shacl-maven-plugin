@@ -20,7 +20,7 @@ Example configuring both targets and running them in different [build lifecycle 
     <plugin>
       <groupId>io.github.qudtlib</groupId>
       <artifactId>shacl-maven-plugin</artifactId>
-      <version>1.0</version>
+      <version>1.0.0</version>
       <configuration>
         <validations>
           <validation>
