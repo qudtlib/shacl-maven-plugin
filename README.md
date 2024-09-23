@@ -7,10 +7,10 @@
 Both targets are configured with 2 filesets (`<shapes>` and `<data>`) that `<include>` and `<exclude>` files using comma/newline-separated ant-style patterns.
 The output is written to the `<outputFile>`. One may `<skip/>` such a fileset if needed.
 
-For the 'validate' target, this configuration is provided in '<validations>/<validate>' elements. The validiation report is written to the`<outputFile>`.
+For the 'validate' target, this configuration is provided in `<validations>/<validate>` elements. The validiation report is written to the`<outputFile>`.
 The optional `<failOnSeverity>` parameter (values `Violation`, `Warning`, `Info`) is used to specify the severity level that causes the build to fail.
 
-For the 'infer' target, these are provided in '<inferences>/<inference>' elements. The inferred triples are written to the`<outputFile>`.
+For the 'infer' target, the configuration is provided in `<inferences>/<inference>` elements. The inferred triples are written to the`<outputFile>`.
 
 Example configuring both targets and running them in different [build lifecycle phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html):
 
