@@ -17,7 +17,6 @@ Example configuring both targets and running them in different [build lifecycle 
 ```xml
 <build> 
   <plugins>
-    [..]
     <plugin>
       <groupId>io.github.qudtlib</groupId>
       <artifactId>shacl-maven-plugin</artifactId>
@@ -42,8 +41,8 @@ Example configuring both targets and running them in different [build lifecycle 
               <include>my/rules.ttl</include>
             </shapes>
             <data>
-                <include>**/*.ttl</include>
-                <exclude>**/*deprecated*.ttl</exclude>
+              <include>**/*.ttl</include>
+              <exclude>**/*deprecated*.ttl</exclude>
             </data>
             <outputFile>target/inferences.ttl</outputFile>
           </inference>
@@ -67,6 +66,5 @@ Example configuring both targets and running them in different [build lifecycle 
       </executions>
     </plugin>
   </plugins>
-  [...]
 </build>
 ```
