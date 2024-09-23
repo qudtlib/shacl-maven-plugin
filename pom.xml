@@ -12,10 +12,9 @@
     <description>Allows SHACL Validation of RDF Data as well as generation of triples using SHACL-AF rules</description>
 
     <scm>
-        <connection>scm:git:https://github.com/qudtlib/qudtlib-java.git</connection>
-        <developerConnection>scm:git:https://github.com/qudtlib/qudtlib-java.git</developerConnection>
-        <url>https://github.com/qudtlib/qudtlib-java/tree/master</url>
-        <tag>qudtlib-java-1.0</tag>
+        <connection>scm:git:https://github.com/qudtlib/shacl-maven-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/qudtlib/shacl-maven-plugin.git</developerConnection>
+        <url>https://github.com/qudtlib/shacl-maven-plugin/tree/master</url>
     </scm>
 
 
