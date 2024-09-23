@@ -10,13 +10,14 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.topbraid.jenax.progress.NullProgressMonitor;
 import org.topbraid.shacl.rules.RuleUtil;
 import org.topbraid.shacl.vocabulary.SH;
 
-@Mojo(name = "infer")
+@Mojo(name = "infer", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class ShaclInferenceMojo extends AbstractShacMojo {
 
     @Parameter(required = true)
