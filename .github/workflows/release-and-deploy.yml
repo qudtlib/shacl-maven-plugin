@@ -35,7 +35,6 @@ on:
 jobs:
   build:
     # setting the environment on the job is mandatory, otherwise it cannot access environment secrets.
-    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
