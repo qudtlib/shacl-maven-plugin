@@ -8,7 +8,6 @@ env:
   MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
   MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
   MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-  MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 on:
   workflow_dispatch:
     inputs:
@@ -28,8 +27,6 @@ on:
       MAVEN_CENTRAL_TOKEN:
         required: true
       MAVEN_GPG_PASSPHRASE:
-        required: true
-      MAVEN_GPG_PRIVATE_KEY:
         required: true
 
 jobs:
@@ -82,7 +79,7 @@ jobs:
           server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
           server-username: MAVEN_USERNAME  # env variable for username in deploy
           server-password: MAVEN_CENTRAL_TOKEN  # env variable for token in deploy
-          gpg-private-key: MAVEN_GPG_PRIVATE_KEY  # Value of the GPG private key to import
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}  # Value of the GPG private key to import
           gpg-passphrase: MAVEN_GPG_PASSPHRASE  # env variable for GPG private key passphrase
           cache: 'maven'
 
