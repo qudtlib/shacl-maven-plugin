@@ -1,8 +1,20 @@
 # SHACL for maven builds
 
-2 targets:
-- validate:
-- infer
+## Targets
+ 
+`validate`: 
+- defines a set of RDF files as 'data', 
+- defines a set of RDF files as 'shapes', 
+- performs [SHACL validation](https://www.w3.org/TR/shacl/#validation) of the data using the shapes
+- writes the validation report (in RDF) to an output file
+
+`infer`:
+- defines a set of RDF files as 'data',
+- defines a set of RDF files as 'shapes',
+- performs [SHACL-AF inference](https://www.w3.org/TR/shacl-af/#rules) of the data using the shapes
+- writes the inferred triples  to an output file
+ 
+## Configuration
 
 Both targets are configured with 2 filesets (`<shapes>` and `<data>`) that `<include>` and `<exclude>` files using comma/newline-separated ant-style patterns.
 The output is written to the `<outputFile>`. One may `<skip/>` such a fileset if needed.
@@ -12,6 +24,8 @@ The optional `<failOnSeverity>` parameter (values `Violation`, `Warning`, `Info`
 
 For the 'infer' target, the configuration is provided in `<inferences>/<inference>` elements. The inferred triples are written to the`<outputFile>`.
 
+## Example
+
 Example configuring both targets and running them in different [build lifecycle phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html):
 
 ```xml
@@ -20,7 +34,7 @@ Example configuring both targets and running them in different [build lifecycle 
     <plugin>
       <groupId>io.github.qudtlib</groupId>
       <artifactId>shacl-maven-plugin</artifactId>
-      <version>1.0.0</version>
+      <version>1.0.0m</version>
       <configuration>
         <validations>
           <validation>
