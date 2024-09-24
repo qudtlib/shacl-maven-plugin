@@ -28,8 +28,8 @@
         <connection>scm:git:https://github.com/qudtlib/shacl-maven-plugin.git</connection>
         <developerConnection>scm:git:https://github.com/qudtlib/shacl-maven-plugin.git</developerConnection>
         <url>https://github.com/qudtlib/shacl-maven-plugin/tree/master</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>v1.0.0</tag>
+    </scm>
 
 
     <properties>
@@ -90,7 +90,6 @@
                             <configuration>
                                 <helpPackageName>io.github.qudtlib.maven.shacl</helpPackageName>
                             </configuration>
-
                         </execution>
                     </executions>
                 </plugin>
