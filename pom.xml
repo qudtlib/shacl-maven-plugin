@@ -9,7 +9,8 @@
     <version>0.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>Maven SHACL Plugin</name>
-    <description>Allows SHACL Validation of RDF Data as well as generation of triples using SHACL-AF rules</description>
+    <url>https://github.com/qudtlib/shacl-maven-plugin/</url>
+    <description>Maven plugin for SHACL validation of RDF Data and generating triples using SHACL-AF rules</description>
     <developers>
         <developer>
             <id>fkleedorfer</id>
@@ -87,6 +88,10 @@
                             <goals>
                                 <goal>helpmojo</goal>
                             </goals>
+                            <configuration>
+                                <helpPackageName>io.github.qudtlib.maven.shacl</helpPackageName>
+                            </configuration>
+
                         </execution>
                     </executions>
                 </plugin>
@@ -212,6 +217,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -224,6 +230,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.10.0</version>
                         <executions>
                             <execution>
                                 <phase>prepare-package</phase>
