@@ -7,6 +7,7 @@
 - defines a set of RDF files as 'shapes', 
 - performs [SHACL validation](https://www.w3.org/TR/shacl/#validation) of the data using the shapes
 - writes the validation report (in RDF) to an output file
+- causes the build to fail if there is one report at or above the `failOnSeverity` threshold (default:`Violation`)
 
 `infer`:
 - defines a set of RDF files as 'data',
