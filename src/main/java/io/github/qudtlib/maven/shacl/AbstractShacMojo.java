@@ -31,6 +31,10 @@ public abstract class AbstractShacMojo extends AbstractMojo {
     protected void writeModelToFile(String outputFile, Model model, String messageFormat)
             throws FileNotFoundException {
         if (outputFile != null) {
+            File folder = new File(outputFile).getParentFile();
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
             RDFDataMgr.write(
                     new FileOutputStream(new File(basedir, outputFile)),
                     model,
