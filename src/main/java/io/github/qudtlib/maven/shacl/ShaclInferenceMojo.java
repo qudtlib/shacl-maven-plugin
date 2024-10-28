@@ -64,6 +64,7 @@ public class ShaclInferenceMojo extends AbstractShacMojo {
         Graph dataGraph = loadRdf(dataFiles);
         Model data = ModelFactory.createModelForGraph(dataGraph);
         Model inferences = ModelFactory.createDefaultModel();
+        inferences.setNsPrefixes(data.getNsPrefixMap());
         RuleUtil.executeRules(data, shapes, inferences, new NullProgressMonitor());
         writeModelToFile(
                 dataAndShapes.getOutputFile(),
