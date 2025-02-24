@@ -37,39 +37,52 @@ public class ShaclInferenceMojo extends AbstractShacMojo {
 
     private void performShaclInference(DataAndShapes dataAndShapes)
             throws MojoFailureException, FileNotFoundException {
-        getLog().info("SHACL Inference configuration:");
-        String[] shapesFiles = getFilesForPatterns(dataAndShapes.getShapes());
-        String[] dataFiles = getFilesForPatterns(dataAndShapes.getData());
-        getLog().info(
-                        "\tshapes: "
-                                + Arrays.stream(shapesFiles)
-                                        .collect(Collectors.joining("\n\t", "\n\t", "\n")));
-        getLog().info(
-                        "\tdata: "
-                                + Arrays.stream(dataFiles)
-                                        .collect(Collectors.joining("\n\t", "\n\t", "\n")));
-        getLog().info("\toutput: " + dataAndShapes.getOutputFile());
-        if (dataAndShapes.getOutputFile() == null) {
-            throw new MojoFailureException(
-                    "You must specify an output file for the inferred triples!");
+        if (dataAndShapes.getMessage() != null) {
+            getLog().info(dataAndShapes.getMessage());
         }
-        if (dataAndShapes.isSkip()) {
-            getLog().info("Inferencing skipped");
-            return;
+        try {
+            getLog().info("SHACL Inference configuration:");
+            String[] shapesFiles = getFilesForPatterns(dataAndShapes.getShapes());
+            String[] dataFiles = getFilesForPatterns(dataAndShapes.getData());
+            getLog().info(
+                            "\tshapes: "
+                                    + Arrays.stream(shapesFiles)
+                                            .collect(Collectors.joining("\n\t", "\n\t", "\n")));
+            getLog().info(
+                            "\tdata: "
+                                    + Arrays.stream(dataFiles)
+                                            .collect(Collectors.joining("\n\t", "\n\t", "\n")));
+            getLog().info("\toutput: " + dataAndShapes.getOutputFile());
+            if (dataAndShapes.getOutputFile() == null) {
+                throw new MojoFailureException(
+                        "You must specify an output file for the inferred triples!");
+            }
+            if (dataAndShapes.isSkip()) {
+                getLog().info("Inferencing skipped");
+                return;
+            }
+            debug("Loading SHACL shapes");
+            Graph shapesGraph = loadRdf(shapesFiles);
+            Model shapes = ModelFactory.createModelForGraph(shapesGraph);
+            debug("Loading data to infer from");
+            Graph dataGraph = loadRdf(dataFiles);
+            Model data = ModelFactory.createModelForGraph(dataGraph);
+            Model inferences = ModelFactory.createDefaultModel();
+            inferences.setNsPrefixes(data.getNsPrefixMap());
+            RuleUtil.executeRules(data, shapes, inferences, new NullProgressMonitor());
+            writeModelToFile(
+                    dataAndShapes.getOutputFile(),
+                    inferences,
+                    "The inferred triples were written to %s");
+        } catch (Exception e) {
+            if (dataAndShapes.getFailureMessage() != null) {
+                getLog().info(dataAndShapes.getFailureMessage());
+            }
+            throw e;
         }
-        debug("Loading SHACL shapes");
-        Graph shapesGraph = loadRdf(shapesFiles);
-        Model shapes = ModelFactory.createModelForGraph(shapesGraph);
-        debug("Loading data to infer from");
-        Graph dataGraph = loadRdf(dataFiles);
-        Model data = ModelFactory.createModelForGraph(dataGraph);
-        Model inferences = ModelFactory.createDefaultModel();
-        inferences.setNsPrefixes(data.getNsPrefixMap());
-        RuleUtil.executeRules(data, shapes, inferences, new NullProgressMonitor());
-        writeModelToFile(
-                dataAndShapes.getOutputFile(),
-                inferences,
-                "The inferred triples were written to %s");
+        if (dataAndShapes.getSuccessMessage() != null) {
+            getLog().info(dataAndShapes.getSuccessMessage());
+        }
     }
 
     private boolean isValid(Resource validationReport) {

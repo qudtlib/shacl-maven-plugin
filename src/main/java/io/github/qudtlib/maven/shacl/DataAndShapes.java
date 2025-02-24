@@ -12,6 +12,12 @@ public class DataAndShapes {
     @Parameter(defaultValue = "false")
     private boolean skip;
 
+    @Parameter String message;
+
+    @Parameter String failureMessage;
+
+    @Parameter String successMessage;
+
     public IncludeExcludePatterns getShapes() {
         return shapes;
     }
@@ -26,6 +32,30 @@ public class DataAndShapes {
 
     public boolean isSkip() {
         return skip;
+    }
+
+    public String getSuccessMessage() {
+        return successMessage;
+    }
+
+    public void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
+    }
+
+    public String getFailureMessage() {
+        return failureMessage;
+    }
+
+    public void setFailureMessage(String failureMessage) {
+        this.failureMessage = failureMessage;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

@@ -25,6 +25,13 @@ The optional `<failOnSeverity>` parameter (values `Violation`, `Warning`, `Info`
 
 For the 'infer' target, the configuration is provided in `<inferences>/<inference>` elements. The inferred triples are written to the`<outputFile>`.
 
+### Messages
+
+Both `<validation>` and `<inference>` elements allow for 
+* `<message>` - displayed at level `INFO` before the validation/inference is executed 
+* `<failureMessage>` - displayed at level `INFO` if anything goes wrong
+* `<successMessage>` - displayed at level `INFO`  if there are no problems
+
 ## Example
 
 Example configuring both targets and running them in different [build lifecycle phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html):
@@ -39,6 +46,9 @@ Example configuring both targets and running them in different [build lifecycle 
       <configuration>
         <validations>
           <validation>
+            <message>Running normal validations</message>
+            <failureMessage>ttl files are invalid - please check the validation report</failureMessage>
+            <successMessage>ttl files are valid</successMessage>
             <skip>false</skip>
             <shapes>
               <include>my/shapes.ttl</include>

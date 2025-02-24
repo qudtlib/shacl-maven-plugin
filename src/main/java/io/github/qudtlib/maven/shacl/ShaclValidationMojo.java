@@ -42,66 +42,81 @@ public class ShaclValidationMojo extends AbstractShacMojo {
 
     private void performShaclValidation(DataAndShapes dataAndShapes)
             throws MojoFailureException, FileNotFoundException {
-        getLog().info("SHACL Validation config ");
-        String[] shapesFiles = getFilesForPatterns(dataAndShapes.getShapes());
-        String[] dataFiles = getFilesForPatterns(dataAndShapes.getData());
-        getLog().info("shapes: " + String.join(", ", shapesFiles));
-        getLog().info("data: " + String.join(", ", dataFiles));
-        if (dataAndShapes.isSkip()) {
-            getLog().info("Validation skipped");
-            return;
-        }
-        debug("Loading SHACL shapes");
-        Graph shapesGraph = loadRdf(shapesFiles);
-        Model shapes = ModelFactory.createModelForGraph(shapesGraph);
-        debug("Loading data to validate");
-        Graph dataGraph = loadRdf(dataFiles);
-        Model data = ModelFactory.createModelForGraph(dataGraph);
-        Resource validationReport =
-                ValidationUtil.validateModel(
-                        data,
-                        shapes,
-                        new ValidationEngineConfiguration()
-                                .setReportDetails(true)
-                                .setValidateShapes(false));
+        try {
+            if (dataAndShapes.getMessage() != null) {
+                getLog().info(dataAndShapes.getMessage());
+            }
+            getLog().info("SHACL Validation config ");
+            String[] shapesFiles = getFilesForPatterns(dataAndShapes.getShapes());
+            String[] dataFiles = getFilesForPatterns(dataAndShapes.getData());
+            getLog().info("shapes: " + String.join(", ", shapesFiles));
+            getLog().info("data: " + String.join(", ", dataFiles));
+            if (dataAndShapes.isSkip()) {
+                getLog().info("Validation skipped");
+                return;
+            }
+            debug("Loading SHACL shapes");
+            Graph shapesGraph = loadRdf(shapesFiles);
+            Model shapes = ModelFactory.createModelForGraph(shapesGraph);
+            debug("Loading data to validate");
+            Graph dataGraph = loadRdf(dataFiles);
+            Model data = ModelFactory.createModelForGraph(dataGraph);
+            Resource validationReport =
+                    ValidationUtil.validateModel(
+                            data,
+                            shapes,
+                            new ValidationEngineConfiguration()
+                                    .setReportDetails(true)
+                                    .setValidateShapes(false));
 
-        Model model = validationReport.getModel();
-        writeModelToFile(
-                dataAndShapes.getOutputFile(), model, "The validation report was written to %s");
-        ValidationReport jenaValidationReport =
-                org.apache.jena.shacl.ValidationReport.fromModel(validationReport.getModel());
-        getLog().info(
+            Model model = validationReport.getModel();
+            writeModelToFile(
+                    dataAndShapes.getOutputFile(),
+                    model,
+                    "The validation report was written to %s");
+            ValidationReport jenaValidationReport =
+                    org.apache.jena.shacl.ValidationReport.fromModel(validationReport.getModel());
+            getLog().info(
+                            String.format(
+                                    "%d reports found. Severities:",
+                                    countReports(jenaValidationReport)));
+            getLog().info(
+                            String.format(
+                                    "\tsh:Violoation: %d",
+                                    countReports(jenaValidationReport, Severity.Violation)));
+            getLog().info(
+                            String.format(
+                                    "\tsh:Warning   : %d",
+                                    countReports(jenaValidationReport, Severity.Warning)));
+            getLog().info(
+                            String.format(
+                                    "\tsh:Info      : %d",
+                                    countReports(jenaValidationReport, Severity.Info)));
+            boolean buildFails = isBuildFails(jenaValidationReport);
+            getLog().info(
+                            String.format(
+                                    "The threshold for failing the build is '%s', therefore, the build %s.",
+                                    failOnSeverity, buildFails ? "fails" : "succeeds"));
+            getLog().info(
+                            "To change this behaviour, use the plugin's 'failOnSeverity' parameter (default: 'Violation', other options: 'Warning', 'Info')");
+            if (buildFails) {
+                ShLib.printReport(validationReport);
+                throw new MojoFailureException(
                         String.format(
-                                "%d reports found. Severities:",
-                                countReports(jenaValidationReport)));
-        getLog().info(
-                        String.format(
-                                "\tsh:Violoation: %d",
-                                countReports(jenaValidationReport, Severity.Violation)));
-        getLog().info(
-                        String.format(
-                                "\tsh:Warning   : %d",
-                                countReports(jenaValidationReport, Severity.Warning)));
-        getLog().info(
-                        String.format(
-                                "\tsh:Info      : %d",
-                                countReports(jenaValidationReport, Severity.Info)));
-        boolean buildFails = isBuildFails(jenaValidationReport);
-        getLog().info(
-                        String.format(
-                                "The threshold for failing the build is '%s', therefore, the build %s.",
-                                failOnSeverity, buildFails ? "fails" : "succeeds"));
-        getLog().info(
-                        "To change this behaviour, use the plugin's 'failOnSeverity' parameter (default: 'Violation', other options: 'Warning', 'Info')");
-        if (buildFails) {
-            ShLib.printReport(validationReport);
-            throw new MojoFailureException(
-                    String.format(
-                            "SHACL validation failed.\nShapes files: %s\nData files:%s",
-                            Arrays.stream(shapesFiles)
-                                    .collect(Collectors.joining("\n\t", "\n\t", "\n")),
-                            Arrays.stream(dataFiles)
-                                    .collect(Collectors.joining("\n\t", "\n\t", "\n"))));
+                                "SHACL validation failed.\nShapes files: %s\nData files:%s",
+                                Arrays.stream(shapesFiles)
+                                        .collect(Collectors.joining("\n\t", "\n\t", "\n")),
+                                Arrays.stream(dataFiles)
+                                        .collect(Collectors.joining("\n\t", "\n\t", "\n"))));
+            }
+        } catch (Exception e) {
+            if (dataAndShapes.getFailureMessage() != null) {
+                getLog().info(dataAndShapes.getFailureMessage());
+            }
+            throw e;
+        }
+        if (dataAndShapes.getSuccessMessage() != null) {
+            getLog().info(dataAndShapes.getSuccessMessage());
         }
     }
 
