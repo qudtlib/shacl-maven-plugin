@@ -24,13 +24,13 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
     <scm>
         <connection>scm:git:https://github.com/qudtlib/shacl-maven-plugin.git</connection>
         <developerConnection>scm:git:https://github.com/qudtlib/shacl-maven-plugin.git</developerConnection>
         <url>https://github.com/qudtlib/shacl-maven-plugin/tree/master</url>
-      <tag>v1.0.0</tag>
+        <tag>v1.0.0</tag>
     </scm>
-
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,11 +42,13 @@
             <artifactId>jena-shacl</artifactId>
             <version>4.10.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.topbraid</groupId>
             <artifactId>shacl</artifactId>
             <version>1.4.3</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
@@ -54,18 +56,19 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- dependencies to annotations -->
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
             <version>3.13.1</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
             <version>1.10.15</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
