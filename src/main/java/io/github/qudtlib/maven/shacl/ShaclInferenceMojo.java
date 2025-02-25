@@ -26,9 +26,11 @@ public class ShaclInferenceMojo extends AbstractShacMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         getLog().info("Running SHACL Inferences");
+        getLog().info("");
         for (DataAndShapes check : inferences) {
             try {
                 performShaclInference(check);
+                getLog().info("");
             } catch (FileNotFoundException e) {
                 throw new MojoFailureException("Error performing SHACL validation", e);
             }

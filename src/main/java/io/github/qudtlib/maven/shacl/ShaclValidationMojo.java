@@ -31,9 +31,11 @@ public class ShaclValidationMojo extends AbstractShacMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         getLog().info("Running SHACL Validations");
+        getLog().info("");
         for (DataAndShapes validation : validations) {
             try {
                 performShaclValidation(validation);
+                getLog().info("");
             } catch (FileNotFoundException e) {
                 throw new MojoFailureException("Error performing SHACL validation", e);
             }
@@ -82,7 +84,7 @@ public class ShaclValidationMojo extends AbstractShacMojo {
                                     countReports(jenaValidationReport)));
             getLog().info(
                             String.format(
-                                    "\tsh:Violoation: %d",
+                                    "\tsh:Violation: %d",
                                     countReports(jenaValidationReport, Severity.Violation)));
             getLog().info(
                             String.format(
