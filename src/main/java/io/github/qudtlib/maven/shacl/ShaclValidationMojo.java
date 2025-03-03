@@ -30,15 +30,28 @@ public class ShaclValidationMojo extends AbstractShacMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("Running SHACL Validations");
+        getLog().info(
+                        String.format(
+                                "Running %d SHACL Validation%s",
+                                validations.size(), validations.size() > 1 ? "s" : ""));
         getLog().info("");
+        int i = 0;
         for (DataAndShapes validation : validations) {
             try {
+                long start = System.currentTimeMillis();
                 performShaclValidation(validation);
-                getLog().info("");
+                long duration = System.currentTimeMillis() - start;
+                getLog().info(
+                                String.format(
+                                        "Completed SHACL validation in %s",
+                                        makeDurationString(duration)));
+                if (i < validations.size() - 1) {
+                    getLog().info("");
+                }
             } catch (FileNotFoundException e) {
                 throw new MojoFailureException("Error performing SHACL validation", e);
             }
+            i++;
         }
     }
 
