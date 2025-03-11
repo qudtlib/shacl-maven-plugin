@@ -21,7 +21,10 @@ Both targets are configured with 2 filesets (`<shapes>` and `<data>`) that `<inc
 The output is written to the `<outputFile>`. One may `<skip/>` such a fileset if needed.
 
 For the 'validate' target, this configuration is provided in `<validations>/<validate>` elements. The validiation report is written to the`<outputFile>`.
-The optional `<failOnSeverity>` parameter (values `Violation`, `Warning`, `Info`) is used to specify the severity level that causes the build to fail.
+
+The optional `<failOnSeverity>` parameter (maven property `shacl.severity.fail`, values `Violation`, `Warning`, `Info`, default: `Violation`) is used to specify the severity level that causes the build to fail. 
+
+The optional `<logSeverity>` parameter (maven property `shacl.severity.log`, values `Violation`, `Warning`, `Info`, default: `Info`) is used to filter the validation results - only results with equal or higher severity are logged.
 
 For the 'infer' target, the configuration is provided in `<inferences>/<inference>` elements. The inferred triples are written to the`<outputFile>`.
 
