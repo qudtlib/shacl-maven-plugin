@@ -3,7 +3,6 @@ package io.github.qudtlib.maven.shacl;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -59,14 +58,10 @@ public class ShaclInferenceMojo extends AbstractShacMojo {
             getLog().info("SHACL Inference configuration:");
             String[] shapesFiles = getFilesForPatterns(dataAndShapes.getShapes());
             String[] dataFiles = getFilesForPatterns(dataAndShapes.getData());
-            getLog().info(
-                            "\tshapes: "
-                                    + Arrays.stream(shapesFiles)
-                                            .collect(Collectors.joining("\n\t", "\n\t", "\n")));
-            getLog().info(
-                            "\tdata: "
-                                    + Arrays.stream(dataFiles)
-                                            .collect(Collectors.joining("\n\t", "\n\t", "\n")));
+            getLog().info("shapes: ");
+            Arrays.stream(shapesFiles).sorted().forEach(file -> getLog().info("    " + file));
+            getLog().info("data: ");
+            Arrays.stream(dataFiles).sorted().forEach(file -> getLog().info("    " + file));
             getLog().info("\toutput: " + dataAndShapes.getOutputFile());
             if (dataAndShapes.getOutputFile() == null) {
                 throw new MojoFailureException(
